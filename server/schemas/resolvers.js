@@ -1,6 +1,6 @@
 const { User } = require('../models');
-const { AuthenticationError } = require('apollo-server-express');
-const { signToken } = require('../utils/auth');
+
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
@@ -10,7 +10,7 @@ const resolvers = {
                 .select("-__v -password");
                 return userData;
             }
-            throw new AuthenticationError('You are not logged in!!!');
+            throw AuthenticationError('You are not logged in!!!');
         },
     },
 
@@ -18,11 +18,11 @@ const resolvers = {
         login: async (parent, { email, password }) => {
             const user = await User.findOne( { email });
             if (!user) {
-                throw new AuthenticationError('Incorrect credentials')
+                throw AuthenticationError('Incorrect credentials')
             }
             const correctPassword = await user.isCorrectPassword(password);
             if(!correctPassword) {
-                throw new AuthenticationError('Incorrect credentials')
+                throw AuthenticationError('Incorrect credentials')
             }
             const token = signToken(user);
             return { token, user };
@@ -36,7 +36,7 @@ const resolvers = {
 
         saveBook: async (parent, { input }, context) => {
             if (context.user) {
-                const updatedUser = await User.findOneAndUpdate(
+                const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $addToSet: {savedBooks: input} },
                     { new: true, runValidators: true }

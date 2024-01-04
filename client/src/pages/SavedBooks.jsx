@@ -8,13 +8,15 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
+import { removeBookId, saveBookIds } from '../utils/localStorage';
 
 
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+
   const userData = data?.me || {};
+
+  const [removeBook] = useMutation(REMOVE_BOOK);
 
   // if(!userData?.username) {
   //   return (
@@ -32,11 +34,15 @@ const SavedBooks = () => {
       return false;
     }
     try {
-      const { data } = await removeBook({
-        variables: { bookId },
+      const response = await removeBook({
+        variables: { bookId: bookId },
       });
 
-      //with success, remove book's id from localStorage
+      if (!response) {
+        throw new Error("something went wrong!");
+      }
+
+      //if successful, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
