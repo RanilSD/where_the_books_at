@@ -1,10 +1,9 @@
 
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ApolloProvider } from "@apollo/react-hooks";
-import ApolloClient from 'apollo-boost';
-import { Outlet } from 'react-router-dom;'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+// import { Outlet } from 'react-router-dom;'
 import {
   ApolloClient,
   InMemoryCache,

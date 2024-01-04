@@ -1,7 +1,7 @@
 import React from 'react';
-import { Jumbotron,
+import {
 Container,
-CardColumns,
+
 Card,
 Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';

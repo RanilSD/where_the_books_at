@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Jumbotron,
+import {
 Container,
 Col,
 Form,
 Button,
-Card,
-CardColumns } from 'react-bootstrap';
+Card } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 // import { saveBook, searchGoogleBooks } from '../utils/API';
