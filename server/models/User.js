@@ -34,7 +34,7 @@ const userSchema = new Schema(
 
 // hash user password
 userSchema.pre('save', async function (next) {
-  if (this.isNew || this.isModified('password')) {
+  if (this.isNew || this.isModified("password")) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
@@ -48,10 +48,10 @@ userSchema.methods.isCorrectPassword = async function (password) {
 };
 
 //getting `bookCount` field with the number of saved books when quering a user
-userSchema.virtual('bookCount').get(function () {
+userSchema.virtual("bookCount").get(function () {
   return this.savedBooks.length;
 });
 
-const User = model('User', userSchema);
+const User = model("User", userSchema);
 
 module.exports = User;
