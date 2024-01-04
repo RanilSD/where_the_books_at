@@ -3,6 +3,7 @@ import {
 Container,
 Col,
 Form,
+Row,
 Button,
 Card } from 'react-bootstrap';
 
@@ -109,11 +110,11 @@ const [saveBook] = useMutation(SAVE_BOOK);
 
   return (
     <>
-      <Jumbotron fluid className='text-light bg-dark'>
+      <div fluid className='text-light bg-dark'>
         <Container>
           <h1>Search for Books!</h1>
           <Form onSubmit={handleFormSubmit}>
-            <Form.Row>
+            <Row>
               <Col xs={12} md={8}>
                 <Form.Control
                   name='searchInput'
@@ -129,10 +130,10 @@ const [saveBook] = useMutation(SAVE_BOOK);
                   Submit Search
                 </Button>
               </Col>
-            </Form.Row>
+            </Row>
           </Form>
         </Container>
-      </Jumbotron>
+      </div>
 
       <Container>
         <h2>
@@ -140,10 +141,12 @@ const [saveBook] = useMutation(SAVE_BOOK);
             ? `Viewing ${searchedBooks.length} results:`
             : 'Search for a book to begin'}
         </h2>
-        <CardColumns>
+        <Row>
           {searchedBooks.map((book) => {
             return (
-              <Card key={book.bookId} border='dark'>
+              <Col key={book.bookId}>
+
+              <Card border='dark'>
                 {book.image ? (
                   <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
                 ) : null}
@@ -153,19 +156,20 @@ const [saveBook] = useMutation(SAVE_BOOK);
                   <Card.Text>{book.description}</Card.Text>
                   {Auth.loggedIn() && (
                     <Button
-                      disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
+                      disabled={savedBookIds?.some((savedId) => savedId === book.bookId)}
                       className='btn-block btn-info'
                       onClick={() => handleSaveBook(book.bookId)}>
-                      {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
+                      {savedBookIds?.some((savedId) => savedId === book.bookId)
                         ? 'This book has already been saved!'
                         : 'Save this Book!'}
                     </Button>
                   )}
                 </Card.Body>
-              </Card>
+                </Card>
+              </Col>
             );
           })}
-        </CardColumns>
+          </Row>
       </Container>
     </>
   );

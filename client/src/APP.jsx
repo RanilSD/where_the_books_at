@@ -3,7 +3,7 @@ import './App.css';
 // import React from 'react';
 // import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import { Outlet } from 'react-router-dom;';
+import { Outlet } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -43,4 +43,4 @@ function App() {
   );
 }
 
-export default APP;
+export default App;
