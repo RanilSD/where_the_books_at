@@ -9,7 +9,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
-import { removeBookId, saveBookIds } from '../utils/localStorage';
+import { deleteBookId } from '../utils/localStorage';
 
 
 const SavedBooks = () => {
@@ -17,7 +17,7 @@ const SavedBooks = () => {
 
   const userData = data?.me || {};
 
-  const [removeBook] = useMutation(REMOVE_BOOK);
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
   // if(!userData?.username) {
   //   return (
@@ -36,18 +36,19 @@ const SavedBooks = () => {
     }
     try {
       const response = await removeBook({
-        variables: { bookId: bookId },
+        variables: { bookId },
       });
 
-      if (!response) {
-        throw new Error("something went wrong!");
-      }
-
-      //if successful, remove book's id from localStorage
-      removeBookId(bookId);
+      deleteBookId(bookId);
     } catch (err) {
       console.error(err);
     }
+
+      // if (!response) {
+      //   throw new Error("something went wrong!");
+      // }
+
+
   };
 
   if (loading) {
@@ -56,7 +57,7 @@ const SavedBooks = () => {
 
   return (
     <>
-      <div fluid className='text-light bg-dark'>
+      <div className='text-light bg-dark'>
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
